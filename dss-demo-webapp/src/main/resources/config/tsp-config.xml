@@ -2,13 +2,42 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
-	<bean id="tspSource" class="eu.europa.esig.dss.spi.x509.tsp.KeyEntityTSPSource">
-		<constructor-arg name="ksFile" type="java.io.File" value="classpath:self_signed_tsa.p12" />
-		<constructor-arg name="ksType" value="PKCS12" />
-		<constructor-arg name="ksPassword" value="whrmbQRp2nZHx7T5" />
-		<constructor-arg name="alias" value="self-signed-tsa" />
-		<constructor-arg name="keyEntryPassword" value="whrmbQRp2nZHx7T5" />
-		<property name="tsaPolicy" value="1.2.3.4" />
+	<!-- POSTSIGNUM TSP - 	Přihlášení JMENEM A HESLEM
+	#################################################################
+	Primární:
+		https://tsa.postsignum.cz:444/TSS/HttpTspServer/
+		https://tsa.postsignum.eu:444/TSS/HttpTspServer/
+	!!!! Adresa serveru MUSÍ být včetně koncového lomítka (jinak -> CIRCULAR REDIRECT)
+
+	-->
+	<!--
+	<bean id="tspSource" class="cz.ssw.dss.SswTspSource">
+		<constructor-arg name="tspServer"  value="https://tsa.postsignum.cz:444/TSS/HttpTspServer/" />
+		<constructor-arg name="username"  value="......." />
+		<constructor-arg name="password"  value="......." />
+	</bean>
+	-->
+	<!-- POSTSIGNUM  přihláššení klientským certifikátem
+	##################################################################
+		https://tsa.postsignum.cz/TSS/HttpTspServer/
+
+	KeyStore tool :
+		KeyStore Explorer: https://keystore-explorer.org/
+	Alternativně:
+		Vytvoření keystore:
+
+		import klíče do keystore:
+
+	    keytool -trustcacerts -keystore "D:\Projects\RAKOSOFT-SSW\dss-server\dss-demo-webapp\src\main\resources\postsignum_keys.p12" -storepass czpost -importcert -alias avis -file "D:\Certificates\Postsignum TSA\AVISME.cer"
+
+	-->
+
+	<bean id="tspSource" class="cz.ssw.dss.SswTspSource">
+		<constructor-arg name="tspServer"  value="https://tsa.postsignum.cz/TSS/HttpTspServer/" />
+		<constructor-arg name="sslKeystoreType"  value="PKCS12" />
+		<constructor-arg name="sslKeystoreResource"  value="postsignum_client.p12" />
+		<constructor-arg name="sslKeystorePassword"  value="AVISME" />
+		<constructor-arg name="useKeyAsTrustMaterial"  value="false" />
 	</bean>
 
 </beans>

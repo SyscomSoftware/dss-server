@@ -69,12 +69,16 @@
 	</licenses>
 
 	<modules>
+		<!-- RAKO
 		<module>dss-standalone-app</module>
 		<module>dss-standalone-app-package</module>
+		-->
 		<module>dss-demo-webapp</module>
+		<!-- RAKO
 		<module>dss-demo-bundle</module>
 		<module>dss-rest-doc-generation</module>
 		<module>dss-esig-validation-tests</module>
+		-->
 	</modules>
 
 	<build>
@@ -222,6 +226,7 @@
 				<type>war</type>
 				<version>${project.version}</version>
 			</dependency>
+			<!-- RAKO
 			<dependency>
 				<groupId>eu.europa.ec.joinup.sd-dss</groupId>
 				<artifactId>dss-standalone-app</artifactId>
@@ -232,7 +237,7 @@
 				<artifactId>dss-standalone-app-package</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
+			-->
 			<!-- DSS Framework dependencies -->
 
 			<dependency>

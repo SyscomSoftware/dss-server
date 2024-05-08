@@ -2,4 +2,5 @@
 *.iml
 .idea
 target
+/dss-demo-webapp/src/main/resources/postsignum_client.p12
 
