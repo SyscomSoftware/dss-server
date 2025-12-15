@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,7 +22,7 @@ import org.springframework.security.web.header.writers.DelegatingRequestMatcherH
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter.XFrameOptionsMode;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,9 +46,9 @@ public class WebSecurityConfiguration {
 	@Value("${web.strict.transport.security:}")
 	private String strictTransportSecurity;
 	
-	/** API urls (REST/SOAP webServices) */
+	/** API urls (REST/SOAP webServices and server-sign) */
 	private static final String[] API_URLS = new String[] {
-			"/services/rest/**", "/services/soap/**"
+			"/services/rest/**", "/services/soap/**", "/server-sign/**"
 	};
 
 	@Bean
@@ -77,23 +79,23 @@ public class WebSecurityConfiguration {
 	private RequestMatcher[] getAntMatchers() {
 		RequestMatcher[] requestMatchers = new RequestMatcher[API_URLS.length];
 		for (int i = 0; i < API_URLS.length; i++) {
-			requestMatchers[i] = new AntPathRequestMatcher(API_URLS[i]);
+			requestMatchers[i] = PathPatternRequestMatcher.withDefaults().matcher(API_URLS[i]);
 		}
 		return requestMatchers;
 	}
 
 	@Bean
 	public HeaderWriter javadocHeaderWriter() {
-		final AntPathRequestMatcher javadocAntPathRequestMatcher = new AntPathRequestMatcher("/apidocs/**");
+		final PathPatternRequestMatcher javadocPathRequestMatcher = PathPatternRequestMatcher.withDefaults().matcher("/apidocs/**");
 		final HeaderWriter hw = new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN);
-		return new DelegatingRequestMatcherHeaderWriter(javadocAntPathRequestMatcher, hw);
+		return new DelegatingRequestMatcherHeaderWriter(javadocPathRequestMatcher, hw);
 	}
 
 	@Bean
 	public HeaderWriter svgHeaderWriter() {
-		final AntPathRequestMatcher javadocAntPathRequestMatcher = new AntPathRequestMatcher("/validation/diag-data.svg");
+		final PathPatternRequestMatcher javadocPathRequestMatcher = PathPatternRequestMatcher.withDefaults().matcher("/validation/diag-data.svg");
 		final HeaderWriter hw = new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN);
-		return new DelegatingRequestMatcherHeaderWriter(javadocAntPathRequestMatcher, hw);
+		return new DelegatingRequestMatcherHeaderWriter(javadocPathRequestMatcher, hw);
 	}
 	
 	@Bean
@@ -149,6 +151,13 @@ public class WebSecurityConfiguration {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				response.getWriter().println("Bad request : " + requestRejectedException.getMessage());
 			}
+		};
+	}
+
+	@Bean
+	public AuthenticationManager noAuthenticationManager() {
+		return authentication -> {
+			throw new AuthenticationServiceException("Authentication is disabled");
 		};
 	}
 

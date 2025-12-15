@@ -22,6 +22,7 @@
 .form-control-file {
     display: inline-block;
     width: auto;
+	max-width: 90%;
     overflow: hidden;
 }
 
@@ -233,6 +234,14 @@ pre.prettyprint {
  }
 
 /* End Validation reports */
+
+/* Extra large devices */
+
+@media (min-width: 1400px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+        max-width: 1320px;
+    }
+}
 
 /* Mobile devices */
 

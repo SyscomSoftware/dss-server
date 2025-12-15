@@ -1,4 +1,4 @@
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+FROM maven:3.9.11-eclipse-temurin-21 AS build
 
 COPY pom.xml /usr/src/mymaven/dss-demonstrations/
 
@@ -28,8 +28,7 @@ WORKDIR /usr/src/mymaven/dss-demonstrations
 
 RUN mvn package -pl dss-demo-webapp -P quick
 
-FROM tomcat:10.1.24
-COPY --from=build /usr/src/mymaven/dss-demonstrations/dss-demo-webapp/target/dss-demo-webapp-*.war /usr/local/tomcat/webapps/ROOT.war
+FROM tomcat:11.0.11-jdk21-temurin
 
 # Copy POSTSIGNUM Certification authority root certificates
 COPY  postsignum-certificates/postsignum_qca2_root.cer /opt/
