@@ -1,12 +1,14 @@
-FROM maven:3.9.6-eclipse-temurin-17 as build
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-RUN useradd -m demouser -d /home/demouser
+COPY pom.xml /usr/src/mymaven/dss-demonstrations/
 
-# COPY dss-standalone-app/pom.xml /usr/src/mymaven/dss-demonstrations/dss-standalone-app/
-# COPY dss-standalone-app/src /usr/src/mymaven/dss-demonstrations/dss-standalone-app/src
+#RUN useradd -m demouser -d /home/demouser
 
-# COPY dss-standalone-app-package/pom.xml /usr/src/mymaven/dss-demonstrations/dss-standalone-app-package/
-# COPY dss-standalone-app-package/src /usr/src/mymaven/dss-demonstrations/dss-standalone-app-package/src
+#COPY dss-standalone-app/pom.xml /usr/src/mymaven/dss-demonstrations/dss-standalone-app/
+#COPY dss-standalone-app/src /usr/src/mymaven/dss-demonstrations/dss-standalone-app/src
+
+#COPY dss-standalone-app-package/pom.xml /usr/src/mymaven/dss-demonstrations/dss-standalone-app-package/
+#COPY dss-standalone-app-package/src /usr/src/mymaven/dss-demonstrations/dss-standalone-app-package/src
 
 COPY dss-demo-webapp/pom.xml /usr/src/mymaven/dss-demonstrations/dss-demo-webapp/
 COPY dss-demo-webapp/src /usr/src/mymaven/dss-demonstrations/dss-demo-webapp/src
@@ -21,10 +23,12 @@ COPY dss-demo-webapp/src /usr/src/mymaven/dss-demonstrations/dss-demo-webapp/src
 #COPY pathTo/site/apidocs /home/demouser/dss/target/site/apidocs
 
 WORKDIR /usr/src/mymaven/dss-demonstrations
+#RUN mvn --help
 #RUN mvn package -pl dss-standalone-app,dss-standalone-app-package,dss-demo-webapp -P quick
+
 RUN mvn package -pl dss-demo-webapp -P quick
 
-FROM tomcat:10
+FROM tomcat:10.1.24
 COPY --from=build /usr/src/mymaven/dss-demonstrations/dss-demo-webapp/target/dss-demo-webapp-*.war /usr/local/tomcat/webapps/ROOT.war
 
 # Copy POSTSIGNUM Certification authority root certificates
