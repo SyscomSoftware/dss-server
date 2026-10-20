@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+	<!-- POSTSIGNUM TSP - 	Přihlášení JMENEM A HESLEM
+	#################################################################
+	URL ADRESA SERVERU:
+		https://tsa.postsignum.cz:444/TSS/HttpTspServer/
+        POZOR!!!
+	    Adresa serveru MUSÍ být včetně koncového lomítka (jinak všechny dotazy spadnou na  CIRCULAR REDIRECT)
+	-->
+	<bean id="tspSource" class="cz.ssw.dss.SswTspSource">
+		<constructor-arg name="tspServer"  value="https://tsa.postsignum.cz:444/TSS/HttpTspServer/" />
+		<constructor-arg name="username"  value="<Uživatel>" />
+		<constructor-arg name="password"  value="<heslp>" />
+	</bean>
+
+</beans>

@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	<!-- POSTSIGNUM  přihlášení klientským certifikátem
+	##################################################################
+           ADRESA URL SERVERU
+		https://tsa.postsignum.cz/TSS/HttpTspServer/
+           POZOR:
+                !!!! Adresa serveru MUSÍ být včetně koncového lomítka (jinak -> CIRCULAR REDIRECT)
+           Certifikát musí být v keystore ve formátu PCKS12, K vytvoření použijte 	   
+		a) KeyStore Explorer: https://keystore-explorer.org/
+		b) keytool (na linuxu) 
+
+		    import klíče do keystore:
+		    keytool -trustcacerts -keystore "postsignum_keys.p12" -storepass czpost -importcert -alias avis -file "D:\Certificates\Postsignum TSA\AVISME.cer"
+
+	-->
+
+	<bean id="tspSource" class="cz.ssw.dss.SswTspSource">
+		<constructor-arg name="tspServer"  value="https://tsa.postsignum.cz/TSS/HttpTspServer/" />
+		<constructor-arg name="sslKeystoreType"  value="PKCS12" />
+		<constructor-arg name="sslKeystoreResource"  value="<keystore_file_name>" />
+		<constructor-arg name="sslKeystorePassword"  value="<keystore_password>" />
+		<constructor-arg name="useKeyAsTrustMaterial"  value="false" />
+	</bean>
+
+</beans>

@@ -9,10 +9,11 @@
         <version>6.3</version>
     </parent>
 
-    <artifactId>dss-demo-webapp</artifactId>
+    <artifactId>dss</artifactId>
     <packaging>${packaging.type}</packaging>
-    <name>DSS Demo: Web Application</name>
-    <description>DSS Demo: Web Application</description>
+    <name>ARICOMA DSS Server</name>
+    <version>1.0</version>
+    <description>ARICOMA DSS Server Web Application</description>
 
     <dependencies>
         <!-- Sprint-Boot dependencies -->

@@ -1,4 +1,13 @@
+<<<<<<< Updated upstream
 FROM maven:3.9.11-eclipse-temurin-21 AS build
+=======
+
+
+FROM maven:3.9.5-eclipse-temurin-17 as build
+LABEL org.opencontainers.image.source=https://github.com/SyscomSoftware/dss-server
+LABEL org.opencontainers.image.description="DSS Server (JAVA)"
+LABEL org.opencontainers.image.licenses=MIT
+>>>>>>> Stashed changes
 
 COPY pom.xml /usr/src/mymaven/dss-demonstrations/
 

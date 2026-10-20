@@ -58,7 +58,7 @@ Je třeba vyzkoušet
   * IP filter - viz. [Stackoverflow](https://stackoverflow.com/questions/37337745/springmvc-how-to-filter-the-clients-ip) resp. [Spring Security – Whitelist IP](https://www.baeldung.com/spring-security-whitelist-ip-range)
 * Lokalizace aplikace (je to nutné ?)
 * Lokalizace resources z DSS - výsledky validací etc.
-* Změny v policy souborech - otázka je jesstli tady. Při validaci se soubor s policy nechá poslat jako parametr. Možná by to bylo lepší. Na druhou stranu je otázka, jestli je žádoucí aby si klient určoval validační pravidla.
+* Změny v policy souborech - otázka je jestli tady. Při validaci se soubor s policy nechá poslat jako parametr. Možná by to bylo lepší. Na druhou stranu je otázka, jestli je žádoucí aby si klient určoval validační pravidla.
 
 # Spuštění v prostředí Dockeru
 
@@ -83,7 +83,7 @@ nebo v *detached* módu
 
 ## Test api přístupu
 
-Pro testování přístupu k serveru je možní použít testovací aplikaci [SSW.Pdf.Test](https://github.com/sswdevops/PdfTools/tree/master/SSW.Pdf.Test) z projektu [PdfTools](https://github.com/sswdevops/PdfTools).
+Pro testování přístupu k serveru je možné použít testovací aplikaci [SSW.Pdf.Test](https://github.com/sswdevops/PdfTools/tree/master/SSW.Pdf.Test) z projektu [PdfTools](https://github.com/sswdevops/PdfTools).
 
 Aktuálně je možné testovat podpisy různých souborů (PDF, JSON, XML) . Žlutě podbarvená tlačítka (ověření certifikátu, ověření podpisu v dokumentu) jsou funkční, chybí zpracování výstupu. Jediná možnost jak "chytit výstup" je v debuggeru. (*Je třeba vyjasnit, co má být výstupem validace. Zejména s ohledem na AVIS. Výsledný JSON z validace je standardně dost objemný*)
 
